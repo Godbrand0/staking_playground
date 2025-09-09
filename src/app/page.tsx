@@ -10,11 +10,13 @@ import { EmergencyWithdraw } from "../components/emergencyWithdraw";
 import { UserStats } from "../components/userStats";
 import { ProtocolStats } from "../components/protocolStats";
 import { Menu, X } from "lucide-react"; // icons
+import { useStakingEvents } from "../hooks/useContractEvent";
 
 export default function Home() {
   const { isConnected } = useAccount();
   const [activeTab, setActiveTab] = useState("protocol");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  useStakingEvents();
 
   const menuItems = [
     { key: "protocol", label: "Protocol Stats", component: <ProtocolStats /> },
