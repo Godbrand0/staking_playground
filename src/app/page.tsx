@@ -22,7 +22,11 @@ export default function Home() {
     { key: "stake", label: "Stake Tokens", component: <StakeForm /> },
     { key: "withdraw", label: "Withdraw", component: <WithdrawForm /> },
     { key: "claim", label: "Claim Rewards", component: <ClaimRewards /> },
-    { key: "emergency", label: "Emergency Withdraw", component: <EmergencyWithdraw /> },
+    {
+      key: "emergency",
+      label: "Emergency Withdraw",
+      component: <EmergencyWithdraw />,
+    },
   ];
 
   if (!isConnected) {
@@ -32,7 +36,8 @@ export default function Home() {
           Welcome to Staking Pool
         </h1>
         <p className="text-gray-600 mb-6 text-center">
-          Stake your tokens and earn rewards on <span className="font-semibold">STK</span>
+          Stake your tokens and earn rewards on{" "}
+          <span className="font-semibold">STK</span>
         </p>
         <WalletConnect />
       </div>
@@ -68,12 +73,14 @@ export default function Home() {
             </button>
           ))}
         </nav>
-        
       </div>
 
       {/* Main content */}
       <div className="flex-1 flex flex-col">
-        <WalletConnect />
+        <div className="hidden lg:block mr-6 mt-3">
+          <WalletConnect />
+        </div>
+
         {/* Top bar */}
         <div className="flex items-center justify-between p-4 bg-white shadow-md md:hidden">
           <button
