@@ -28,7 +28,7 @@ export function EmergencyWithdraw() {
         {!showConfirm ? (
           <button
             onClick={() => setShowConfirm(true)}
-            className="w-full bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+            className="w-full bg-red-600 text-white py-2 cursor-pointer px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
           >
             Emergency Withdraw
           </button>

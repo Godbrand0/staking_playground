@@ -73,7 +73,7 @@ export function StakeForm() {
             : isStaking
             ? "Staking..."
             : isStakingConfirming
-            ? "Confirming Staking..."
+            ? "Confirm Staking..."
             : "Approve & Stake"}
         </button>
       </form>
