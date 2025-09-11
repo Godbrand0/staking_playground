@@ -8,11 +8,18 @@ import {
 } from "../hooks/useStaking";
 import { formatEther } from "viem";
 
+import { useUserHistory } from "../hooks/useUserHistory";
+import { useStakingEvents } from "../hooks/useContractEvent";
+
 export function UserStats() {
   const { address } = useAccount();
   const { data: userDetails } = useUserDetails(address);
   const { data: pendingRewards } = usePendingRewards(address);
   const { data: timeUntilUnlock } = useTimeUntilUnlock(address);
+  const history = useUserHistory()
+  console.log("history:", history);
+  useStakingEvents()
+  
 
   const formatTime = (seconds: bigint) => {
     const secondsNum = Number(seconds);
@@ -63,6 +70,52 @@ export function UserStats() {
           </p>
         </div>
       </div>
+       <h3 className="text-xl font-semibold text-gray-800 mb-4">Your History</h3>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-gray-50 rounded-lg">
+          <thead>
+            <tr className="bg-gray-200 text-left text-gray-700 text-sm">
+              <th className="p-2">Type</th>
+              <th className="p-2">Amount</th>
+              <th className="p-2">Date</th>
+              <th className="p-2">Tx</th>
+            </tr>
+          </thead>
+          <tbody>
+            {history.length > 0 ? (
+              history.map((item, i) => (
+                <tr key={i} className="border-t text-sm text-gray-800">
+                  <td className="p-2 capitalize">{item.type}</td>
+                  <td className="p-2">{item.amount} STK</td>
+                  <td className="p-2">
+                    {new Date(item.timestamp * 1000).toLocaleString()}
+                  </td>
+                  <td className="p-2">
+                    <a
+                      href={`https://sepolia.etherscan.io/tx/${item.txHash}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      View
+                    </a>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={4} className="p-4 text-center text-gray-500">
+                  No history yet.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
+function useContractEvents() {
+  throw new Error("Function not implemented.");
+}
+

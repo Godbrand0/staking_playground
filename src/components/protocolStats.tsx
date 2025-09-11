@@ -1,5 +1,6 @@
 "use client";
 
+import { useStakingEvents } from "@/hooks/useContractEvent";
 import {
   useTotalStaked,
   useCurrentRewardRate,
@@ -11,7 +12,7 @@ export function ProtocolStats() {
   const { data: totalStaked } = useTotalStaked();
   const { data: currentRewardRate } = useCurrentRewardRate();
   const { data: initialApr } = useInitialApr();
-
+useStakingEvents
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-bold mb-6 text-blue-700">Protocol Statistics</h2>

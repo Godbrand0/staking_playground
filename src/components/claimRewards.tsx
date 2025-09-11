@@ -3,11 +3,13 @@
 import { useStakingContract, usePendingRewards } from '../hooks/useStaking';
 import { useAccount } from 'wagmi';
 import { formatEther } from 'viem';
+import { useStakingEvents } from '@/hooks/useContractEvent';
 
 export function ClaimRewards() {
   const { address } = useAccount();
   const { claimRewards, isPending } = useStakingContract();
   const { data: pendingRewards } = usePendingRewards(address);
+  useStakingEvents();
 
   const handleClaim = () => {
     claimRewards();

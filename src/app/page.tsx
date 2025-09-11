@@ -33,14 +33,15 @@ export default function Home() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
+      <div className="min-h-screen flex flex-col items-center pt-8 space-y-7 bg-gray-100 px-4">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">
           Welcome to Staking Pool
         </h1>
         <p className="text-gray-600 mb-6 text-center">
-          Stake your tokens and earn rewards on{" "}
+          Stake your tokens and earn more rewards on
           <span className="font-semibold">STK</span>
         </p>
+        <ProtocolStats/>
         <WalletConnect />
       </div>
     );

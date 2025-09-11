@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useStakingContract } from "../hooks/useStaking";
 import { useTokenApproval } from "../hooks/useApproval";
 import { STAKING_CONTRACT_ADDRESS } from "../config/contract";
@@ -21,18 +21,18 @@ export function StakeForm() {
     isConfirmed: isApprovalConfirmed,
   } = useTokenApproval();
 
-  // 🔄 Once approval is confirmed, trigger stake
-  useEffect(() => {
-    if (isApprovalConfirmed && amount) {
-      stake(amount);
-      setAmount(""); // reset after staking
-    }
-  }, [isApprovalConfirmed, amount, stake]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleApprove = (e: React.FormEvent) => {
     e.preventDefault();
     if (!amount) return;
     approve(STAKING_CONTRACT_ADDRESS, amount);
+  };
+   const handleStake = (e: React.FormEvent) => {
+    e.preventDefault();
+   if (isApprovalConfirmed && amount) {
+      stake(amount);
+      setAmount(""); // reset after staking
+    }
   };
 
   const isBusy =
@@ -41,7 +41,7 @@ export function StakeForm() {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-2xl font-bold mb-4 text-gray-800">Stake Tokens</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleStake} className="space-y-4">
         <div>
           <label
             htmlFor="stake-amount"
@@ -61,21 +61,32 @@ export function StakeForm() {
             disabled={isBusy}
           />
         </div>
-        <button
-          type="submit"
-          disabled={isBusy || !amount}
+        <div className="flex gap-5">
+ <button
+          type="button"
+          onClick={handleApprove}
+          disabled={isBusy || !amount || isApprovalConfirmed}
           className="w-full bg-gray-600 text-white py-2 px-4 cursor-pointer rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isApproving
             ? "Approving..."
             : isApprovalConfirming
             ? "Waiting for Approval..."
-            : isStaking
+            : "Approve "}
+        </button>
+        <button
+          type="submit"
+          disabled={isBusy || !isApprovalConfirmed || isStakingConfirming}
+          className="w-full bg-gray-600 text-white py-2 px-4 cursor-pointer rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {isStaking
             ? "Staking..."
             : isStakingConfirming
             ? "Confirm Staking..."
-            : "Approve & Stake"}
+            : " Stake"}
         </button>
+        </div>
+       
       </form>
     </div>
   );
