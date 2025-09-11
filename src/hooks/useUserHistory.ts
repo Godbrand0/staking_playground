@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAccount, usePublicClient, useBlockNumber } from "wagmi";
-import { parseAbiItem, formatEther, type AbiEvent } from "viem";
+import { parseAbiItem, formatEther, type AbiEvent, type WatchEventOnLogsParameter } from "viem";
 import { STAKING_CONTRACT_ADDRESS } from "../config/contract";
 
 type HistoryItem = {
@@ -51,7 +51,7 @@ export function useUserHistory() {
           { type: "emergency", event: EMERGENCY_EVENT },
         ];
 
-        let all: HistoryItem[] = [];
+        const all: HistoryItem[] = [];
 
         for (const e of eventDefs) {
           const logs = await publicClient.getLogs({
@@ -62,16 +62,34 @@ export function useUserHistory() {
           });
 
           // 🔑 filter manually by user (don’t rely on args structure always being present)
-          const userLogs = logs.filter(
-            (log: any) => log.args?.user?.toLowerCase?.() === address.toLowerCase()
-          );
+          const userLogs = logs.filter((log) => {
+            // log.args can be an array or an object
+            if (Array.isArray(log.args)) return false;
+            if (
+              typeof log.args === "object" &&
+              log.args !== null &&
+              "user" in log.args &&
+              typeof (log.args as Record<string, unknown>).user === "string"
+            ) {
+              return ((log.args as Record<string, unknown>).user as string).toLowerCase() === address.toLowerCase();
+            }
+            return false;
+          });
 
           all.push(
-            ...userLogs.map((log: any) => ({
+            ...userLogs.map((log) => ({
               type: e.type,
-              amount: formatEther(log.args.amount as bigint),
+              amount: formatEther(
+                typeof log.args === "object" && log.args !== null && "amount" in log.args
+                  ? (log.args as Record<string, unknown>).amount as bigint
+                  : 0n
+              ),
               txHash: log.transactionHash,
-              timestamp: Number(log.args.timestamp),
+              timestamp: Number(
+                typeof log.args === "object" && log.args !== null && "timestamp" in log.args
+                  ? (log.args as Record<string, unknown>).timestamp
+                  : 0
+              ),
             }))
           );
         }
@@ -83,18 +101,38 @@ export function useUserHistory() {
     };
 
     const watchNewLogs = () => {
+      
       const addToHistory =
         (type: HistoryItem["type"]) =>
-        (logs: any[]) => {
+        (logs: WatchEventOnLogsParameter<AbiEvent>) => {
+          const userLogs = logs.filter((log) => {
+            if (Array.isArray(log.args)) return false;
+            if (
+              typeof log.args === "object" &&
+              log.args !== null &&
+              "user" in log.args &&
+              typeof (log.args as Record<string, unknown>).user === "string"
+            ) {
+              return ((log.args as Record<string, unknown>).user as string).toLowerCase() === address.toLowerCase();
+            }
+            return false;
+          });
+
           setHistory((prev) => {
-            const newItems = logs
-              .filter((log: any) => log.args?.user?.toLowerCase?.() === address.toLowerCase())
-              .map((log: any) => ({
-                type,
-                amount: formatEther(log.args.amount as bigint),
-                txHash: log.transactionHash,
-                timestamp: Number(log.args.timestamp),
-              }));
+            const newItems = userLogs.map((log) => ({
+              type,
+              amount: formatEther(
+                typeof log.args === "object" && log.args !== null && "amount" in log.args
+                  ? (log.args as Record<string, unknown>).amount as bigint
+                  : 0n
+              ),
+              txHash: log.transactionHash || "",
+              timestamp: Number(
+                typeof log.args === "object" && log.args !== null && "timestamp" in log.args
+                  ? (log.args as Record<string, unknown>).timestamp
+                  : 0
+              ),
+            }));
             return [...newItems, ...prev].sort((a, b) => b.timestamp - a.timestamp);
           });
         };
