@@ -46,7 +46,7 @@ export function ProtocolStats() {
           <div className="text-center space-y-2">
             <p className="text-amber-600 font-medium text-sm uppercase tracking-wide">Reward Rate</p>
             <p className="text-3xl font-bold text-amber-900">
-              {currentRewardRate ? formatEther(currentRewardRate) : "0.00"} STK
+              {currentRewardRate ? (currentRewardRate) : "0.00"} STK
             </p>
             <p className="text-xs text-amber-600">Rewards distributed per block</p>
           </div>
