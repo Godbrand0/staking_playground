@@ -39,15 +39,19 @@ export function StakeForm() {
     isApproving || isApprovalConfirming || isStaking || isStakingConfirming;
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-4 text-gray-800">Stake Tokens</h2>
-      <form onSubmit={handleStake} className="space-y-4">
-        <div>
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold text-slate-900">Stake Tokens</h2>
+        <p className="text-slate-600">Lock your tokens to start earning rewards</p>
+      </div>
+      
+      <form onSubmit={handleStake} className="space-y-6">
+        <div className="space-y-2">
           <label
             htmlFor="stake-amount"
-            className="block text-sm font-medium text-gray-700 mb-2"
+            className="block text-sm font-medium text-slate-700"
           >
-            Amount to Stake (TOKEN)
+            Amount to Stake (STK)
           </label>
           <input
             id="stake-amount"
@@ -56,37 +60,51 @@ export function StakeForm() {
             min="0"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 text-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-3 border border-slate-300 text-slate-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
             placeholder="0.0"
             disabled={isBusy}
           />
+          <p className="text-xs text-slate-500">
+            Enter the amount of tokens you want to stake. You will need to approve first, then stake.
+          </p>
         </div>
-        <div className="flex gap-5">
- <button
-          type="button"
-          onClick={handleApprove}
-          disabled={isBusy || !amount || isApprovalConfirmed}
-          className="w-full bg-gray-600 text-white py-2 px-4 cursor-pointer rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isApproving
-            ? "Approving..."
-            : isApprovalConfirming
-            ? "Waiting for Approval..."
-            : "Approve "}
-        </button>
-        <button
-          type="submit"
-          disabled={isBusy || !isApprovalConfirmed || isStakingConfirming}
-          className="w-full bg-gray-600 text-white py-2 px-4 cursor-pointer rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isStaking
-            ? "Staking..."
-            : isStakingConfirming
-            ? "Confirm Staking..."
-            : " Stake"}
-        </button>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <button
+              type="button"
+              onClick={handleApprove}
+              disabled={isBusy || !amount || isApprovalConfirmed}
+              className="w-full bg-slate-600 text-white py-3 px-4 rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            >
+              {isApproving
+                ? "Approving..."
+                : isApprovalConfirming
+                ? "Waiting for Approval..."
+                : "Approve Tokens"}
+            </button>
+            <p className="text-xs text-slate-500 text-center">
+              Step 1: Allow the contract to spend your tokens
+            </p>
+          </div>
+          
+          <div className="space-y-2">
+            <button
+              type="submit"
+              disabled={isBusy || !isApprovalConfirmed || isStakingConfirming}
+              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            >
+              {isStaking
+                ? "Staking..."
+                : isStakingConfirming
+                ? "Confirm Staking..."
+                : "Stake Tokens"}
+            </button>
+            <p className="text-xs text-slate-500 text-center">
+              Step 2: Lock your tokens to start earning rewards
+            </p>
+          </div>
         </div>
-       
       </form>
     </div>
   );

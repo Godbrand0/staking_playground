@@ -33,71 +33,90 @@ export default function Home() {
 
   if (!isConnected) {
     return (
-      <div className="min-h-screen flex flex-col items-center pt-8 space-y-7 bg-gray-100 px-4">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Welcome to Staking Pool
-        </h1>
-        <p className="text-gray-600 mb-6 text-center">
-          Stake your tokens and earn more rewards on
-          <span className="font-semibold">STK</span>
-        </p>
-        <ProtocolStats/>
-        <WalletConnect />
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center px-4">
+        <div className="max-w-2xl w-full space-y-8">
+          <div className="text-center space-y-4">
+            <h1 className="text-5xl font-bold text-slate-900">
+              Welcome to Staking Pool
+            </h1>
+            <p className="text-lg text-slate-600">
+              Stake your tokens and earn rewards on{" "}
+              <span className="font-semibold text-blue-600">STK</span>
+            </p>
+            <p className="text-sm text-slate-500">
+              Connect your wallet to start staking and earning rewards
+            </p>
+          </div>
+          
+          <div className="bg-white rounded-xl shadow-lg p-6 border border-slate-200">
+            <ProtocolStats/>
+          </div>
+          
+          <div className="flex justify-center">
+            <WalletConnect />
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex bg-gray-100">
-      {/* Sidebar */}
-      <div
-        className={`fixed inset-y-0 left-0 transform ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } md:relative md:translate-x-0 transition-transform duration-200 ease-in-out bg-white shadow-lg w-64 z-40`}
-      >
-        <div className="p-6 border-b border-gray-200">
-          <h1 className="text-2xl font-bold text-blue-900">Staking Pool</h1>
-        </div>
-        <nav className="p-4 space-y-2">
-          {menuItems.map((item) => (
-            <button
-              key={item.key}
-              onClick={() => {
-                setActiveTab(item.key);
-                setSidebarOpen(false); // close on mobile
-              }}
-              className={`w-full text-left px-4 py-2 rounded-lg cursor-pointer ${
-                activeTab === item.key
-                  ? "bg-blue-100 text-blue-800 font-semibold"
-                  : "text-gray-700 hover:bg-gray-100"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-      </div>
-
-      {/* Main content */}
-      <div className="flex-1 flex flex-col">
-        <div className="hidden lg:block mr-6 mt-3">
-          <WalletConnect />
-        </div>
-
-        {/* Top bar */}
-        <div className="flex items-center justify-between p-4 bg-white shadow-md md:hidden">
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="text-gray-600"
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar */}
+          <div
+            className={`fixed inset-y-0 left-0 transform ${
+              sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } transition-transform duration-300 ease-in-out bg-white shadow-xl w-72 z-40 border border-slate-200 h-screen lg:translate-x-0 lg:sticky lg:top-8 lg:h-[calc(100vh-4rem)] lg:flex-shrink-0 lg:rounded-xl overflow-y-auto`}
           >
-            {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-          <WalletConnect />
-        </div>
+            <div className="p-6 border-b border-slate-200">
+              <h1 className="text-2xl font-bold text-slate-900">Staking Pool</h1>
+              <p className="text-sm text-slate-500 mt-1">Manage your staking position</p>
+            </div>
+            <nav className="p-4 space-y-2">
+              {menuItems.map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => {
+                    setActiveTab(item.key);
+                    setSidebarOpen(false); // close on mobile
+                  }}
+                  className={`w-full text-left px-4 py-3 rounded-lg cursor-pointer transition-all duration-200 ${
+                    activeTab === item.key
+                      ? "bg-blue-50 text-blue-700 font-semibold border border-blue-200"
+                      : "text-slate-700 hover:bg-slate-50 hover:text-slate-900"
+                  }`}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          </div>
 
-        <div className="p-6">
-          {/* Render active component */}
-          {menuItems.find((item) => item.key === activeTab)?.component}
+          {/* Main content */}
+          <div className="flex-1 space-y-6">
+            {/* Top bar for mobile */}
+            <div className="flex items-center justify-between p-4 bg-white shadow-lg rounded-xl border border-slate-200 lg:hidden">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="text-slate-600 hover:text-slate-900 p-2 rounded-lg hover:bg-slate-100"
+              >
+                {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+              <WalletConnect />
+            </div>
+
+            {/* Desktop wallet connect */}
+            <div className="hidden lg:flex justify-end">
+              <WalletConnect />
+            </div>
+
+            {/* Content area */}
+            <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-8">
+              {menuItems.find((item) => item.key === activeTab)?.component}
+            </div>
+          </div>
         </div>
       </div>
     </div>

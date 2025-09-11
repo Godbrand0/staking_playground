@@ -12,29 +12,44 @@ export function ProtocolStats() {
   const { data: totalStaked } = useTotalStaked();
   const { data: currentRewardRate } = useCurrentRewardRate();
   const { data: initialApr } = useInitialApr();
-useStakingEvents
+  useStakingEvents();
+  
   return (
-    <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold mb-6 text-blue-700">Protocol Statistics</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="text-center p-4 bg-purple-50 rounded-lg">
-          <p className="text-purple-600 font-medium">Total Staked</p>
-          <p className="text-2xl font-bold text-purple-800">
-            {totalStaked ? formatEther(totalStaked) : "0.00"} STK
-          </p>
+    <div className="space-y-6">
+      <div className="text-center space-y-2">
+        <h2 className="text-3xl font-bold text-slate-900">Protocol Statistics</h2>
+        <p className="text-slate-600">Current staking pool metrics and performance</p>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border border-blue-200">
+          <div className="text-center space-y-2">
+            <p className="text-blue-600 font-medium text-sm uppercase tracking-wide">Total Staked</p>
+            <p className="text-3xl font-bold text-blue-900">
+              {totalStaked ? formatEther(totalStaked) : "0.00"} STK
+            </p>
+            <p className="text-xs text-blue-600">Total value locked in the protocol</p>
+          </div>
         </div>
-        <div className="text-center p-4 bg-indigo-50 rounded-lg">
-          <p className="text-indigo-600 font-medium">Current APR</p>
-          <p className="text-2xl font-bold text-indigo-800">
-            {initialApr ? `${Number(initialApr) / 100}%` : "0%"}
-          </p>
+        
+        <div className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-xl p-6 border border-emerald-200">
+          <div className="text-center space-y-2">
+            <p className="text-emerald-600 font-medium text-sm uppercase tracking-wide">Current APR</p>
+            <p className="text-3xl font-bold text-emerald-900">
+              {initialApr ? `${Number(initialApr) / 100}%` : "0%"}
+            </p>
+            <p className="text-xs text-emerald-600">Annual percentage rate for stakers</p>
+          </div>
         </div>
-        <div className="text-center p-4 bg-teal-50 rounded-lg">
-          <p className="text-teal-600 font-medium">Reward Rate</p>
-          <p className="text-2xl font-bold text-teal-800">
-            {currentRewardRate ? formatEther(currentRewardRate) : "0.00"}{" "}
-            STK/block
-          </p>
+        
+        <div className="bg-gradient-to-br from-amber-50 to-amber-100 rounded-xl p-6 border border-amber-200">
+          <div className="text-center space-y-2">
+            <p className="text-amber-600 font-medium text-sm uppercase tracking-wide">Reward Rate</p>
+            <p className="text-3xl font-bold text-amber-900">
+              {currentRewardRate ? formatEther(currentRewardRate) : "0.00"} STK
+            </p>
+            <p className="text-xs text-amber-600">Rewards distributed per block</p>
+          </div>
         </div>
       </div>
     </div>
