@@ -75,7 +75,7 @@ export function StakeForm() {
               type="button"
               onClick={handleApprove}
               disabled={isBusy || !amount || isApprovalConfirmed}
-              className="w-full bg-slate-600 text-white py-3 px-4 rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+              className="w-full bg-slate-600 text-white py-3 px-4 cursor-pointer rounded-lg hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
             >
               {isApproving
                 ? "Approving..."
@@ -92,7 +92,7 @@ export function StakeForm() {
             <button
               type="submit"
               disabled={isBusy || !isApprovalConfirmed || isStakingConfirming}
-              className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+              className="w-full bg-blue-600 text-white py-3 px-4 cursor-pointer rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
             >
               {isStaking
                 ? "Staking..."

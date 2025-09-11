@@ -5,7 +5,7 @@ import { parseEther } from "viem";
 
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 
-export const TOKEN_ADDRESS = "0xdEbBAbc9B167877a645EF5E416b3913294a8046F";
+export const TOKEN_ADDRESS = "0x7368b5c10e826f6EB58FfD846D3438B4112B8b7f";
 
 export function useTokenApproval() {
   const { writeContract, data: hash, isPending } = useWriteContract();

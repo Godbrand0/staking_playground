@@ -9,6 +9,7 @@ import { ClaimRewards } from "../components/claimRewards";
 import { EmergencyWithdraw } from "../components/emergencyWithdraw";
 import { UserStats } from "../components/userStats";
 import { ProtocolStats } from "../components/protocolStats";
+import MintButton from "../components/mintButton";
 import { Menu, X } from "lucide-react"; // icons
 import { useStakingEvents } from "../hooks/useContractEvent";
 
@@ -108,9 +109,13 @@ export default function Home() {
             </div>
 
             {/* Desktop wallet connect */}
-            <div className="hidden lg:flex justify-end">
+            <div className="hidden lg:flex items-center  gap-5 justify-end">
               <WalletConnect />
+               <MintButton />
             </div>
+
+            {/* Mint button fixed in the top-right corner */}
+           
 
             {/* Content area */}
             <div className="bg-white rounded-xl shadow-lg border border-slate-200 p-8">

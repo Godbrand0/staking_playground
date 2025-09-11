@@ -22,14 +22,17 @@ export function UserStats() {
   
 
   const formatTime = (seconds: bigint) => {
-    const secondsNum = Number(seconds);
-    if (secondsNum <= 0) return "Unlocked";
+    const total = Number(seconds);
+    if (!Number.isFinite(total) || total <= 0) return "Unlocked";
 
-    const days = Math.floor(secondsNum / (24 * 3600));
-    const hours = Math.floor((secondsNum % (24 * 3600)) / 3600);
-    const minutes = Math.floor((secondsNum % 3600) / 60);
+    const days = Math.floor(total / 86400);
+    const hours = Math.floor((total % 86400) / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const secs = Math.floor(total % 60);
 
-    return `${days}d ${hours}h ${minutes}m`;
+    if (days > 0) return `${days}d ${hours}h ${minutes}m ${secs}s`;
+    if (hours > 0) return `${hours}h ${minutes}m ${secs}s`;
+    return `${minutes}m ${secs}s`;
   };
 
   if (!address) {
@@ -153,8 +156,5 @@ export function UserStats() {
       </div>
     </div>
   );
-}
-function useContractEvents() {
-  throw new Error("Function not implemented.");
 }
 

@@ -99,7 +99,8 @@ export function useTimeUntilUnlock(address: `0x${string}` | undefined) {
     abi: STAKING_CONTRACT_ABI,
     functionName: "getTimeUntilUnlock",
     args: address ? [address] : undefined,
-    query: { enabled: !!address },
+    // Refetch every second so the countdown stays accurate (min lock is 300s)
+    query: { enabled: !!address, refetchInterval: 1000 },
   }) as { data: bigint | undefined };
 }
 
